@@ -20,11 +20,20 @@ public class Compilador {
 
 			try {
 
-				while (true)
-					System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
+				//while (true)
+					//System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
+				
+				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
+				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
+				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
+
+				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
+				file.rollbackChar();
+				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
+				
 
 			} catch (EOFException e) {
-
+				//file.rollbackChar();
 			}
 
 		} catch (FileNotFoundException e) {

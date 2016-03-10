@@ -13,7 +13,8 @@ public class FileLoader {
 	public BufferedReader buffer;
 	private int line;
 	private int column;
-	boolean lineBreak = false;
+	private boolean lineBreak = false;
+	private int lastColumn;
 
 	public FileLoader(String path) throws IOException{
 		this.line = 1;
@@ -47,11 +48,81 @@ public class FileLoader {
 		if (_char == '\n')
 			this.lineBreak = true;
 
+		this.lastColumn = this.column;
 		this.column++;
 	}
 
-	public void roolbackChar() throws IOException {
+	public void rollbackChar() throws IOException {
 		this.buffer.reset();
+		this.buffer.mark(1);
+		char c = (char) this.buffer.read();
+		if(c == '\n'){
+			this.column = this.lastColumn;
+			this.lastColumn = 0;
+			this.line--;
+		}else{
+			this.column--;
+		}
+		this.buffer.reset();
+	}
+
+	public int getLine() {
+		return line;
+	}
+	
+	public int getColumn() {
+		return column;
+	}
+}
+/*package com.pilador.file;
+
+import java.io.BufferedReader;
+import java.io.EOFException;
+import java.io.FileReader;
+import java.io.IOException;
+
+import com.pilador.log.Logger;
+
+public class FileAccessor {
+	public static final int LINE_FEED = 0x000A;
+	public static final int CARRIAGE_RETURN = 0x000D;
+	
+	private static final int EOF_CODE = -1;
+	
+	private BufferedReader file;
+	private int line;
+	private int column;
+	private boolean lineBreak;
+
+	public FileAccessor(String path) throws IOException {
+		this.file = new BufferedReader(new FileReader(path));
+		this.line = 1;
+		this.column = 0;
+	}
+
+	public char getNextChar() throws EOFException, IOException {
+		// marca o ponto de retorno para o reset
+		this.file.mark(1);
+		int characterNumber = this.file.read();
+		// -1 = EOF
+		if (characterNumber == EOF_CODE)
+			throw new EOFException();
+
+		column++;
+
+		char character = (char) characterNumber;
+
+		if (character == LINE_FEED) {
+			lineBreak = true;
+		}
+		
+		if(lineBreak){
+			line++;
+			column = 0;
+			lineBreak = false;
+		}
+
+		return (char) character;
 	}
 
 	public int getLine() {
@@ -61,4 +132,9 @@ public class FileLoader {
 	public int getColumn() {
 		return column;
 	}
+
+	public void rollbackChar() throws IOException {
+		this.file.reset();
+	}
 }
+*/
