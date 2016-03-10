@@ -16,26 +16,39 @@ public class Compilador {
 
 	private static void teste() {
 		try {
-			FileLoader file = new FileLoader("C:/Users/43596980895/Desktop/meuarquivo.txt");
-
+			/**
+			 * Texto testado
+			 * ga
+			   iel
+			   test
+			 */
+			FileLoader file = new FileLoader("C:/Users/gabriel.malaquias/Desktop/meuarquivo.txt");
 			try {
 
 				//while (true)
 					//System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
+			
 				
 				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
 				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
 				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
-
+				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
+				file.rollbackChar();
+				file.rollbackChar();
+				file.rollbackChar();
+				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
+				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
+				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
+				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
+				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
 				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
 				file.rollbackChar();
 				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
+				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
 				
-
 			} catch (EOFException e) {
-				//file.rollbackChar();
+				System.out.println("\nChegamos ao fim!");
 			}
-
 		} catch (FileNotFoundException e) {
 			System.out.println("Problemas para abrir o arquivo. " + e.getMessage());
 		} catch (IOException e) {
