@@ -22,7 +22,7 @@ public class Compilador {
 			   iel
 			   test
 			 */
-			FileLoader file = new FileLoader("C:/Users/gabriel.malaquias/Desktop/meuarquivo.txt");
+			FileLoader file = new FileLoader("C:/Users/43596980895/Desktop/meuarquivo.txt");
 			try {
 
 				//while (true)

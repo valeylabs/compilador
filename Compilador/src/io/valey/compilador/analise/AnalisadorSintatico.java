@@ -7,7 +7,7 @@ public class AnalisadorSintatico {
 
 	public AnalisadorSintatico(String path) {
 		al = new AnalisadorLexico(path);
-		tabSimbolos = new TabelaSimbolos();
+		tabSimbolos = TabelaSimbolos.getInstance();
 	}
 
 	public void execute() {
