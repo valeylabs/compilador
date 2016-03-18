@@ -31,20 +31,13 @@ public class TabelaSimbolos extends HashMap<String, Token> {
 		return TabelaSimbolos.instance;
 	}
 	
-	public Token installToken(Token tk) throws Exception{
+	public Token installToken(String lexema){
+		if(this.containsKey(lexema))
+			return this.get(lexema);
 		
-		if(tk.getCodigoToken() != TipoToken.ID)
-			throw new Exception("Erro");
-		
-		
-		if(this.containsKey(tk.getLexema()))
-			return this.get(tk.getLexema());
-		
-		this.put(tk.getLexema(), tk);
-		return tk;
-		//procura na tabela 
-		//se nao encontrar instala na tabela e retorna o token
-		//se encontrar retorna o id 
+		Token token = new Token(lexema,TipoToken.ID);
+		this.put(lexema, token);
+		return token; 
 	}
 	
 	private void installKeyword(Token tk){
