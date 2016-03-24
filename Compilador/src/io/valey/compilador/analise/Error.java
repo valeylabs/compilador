@@ -48,4 +48,12 @@ public class Error {
 	public void setTipo(TipoErro tipo) {
 		this.tipo = tipo;
 	}
+	
+	public void printError(){
+		System.out.println("");
+		System.out.println("------------------------------------------------");
+		System.out.println("Erro: " + this.getMensagem());
+		System.out.println("Linha: " + this.getLinha() + " | Coluna: " + this.getColuna());
+		System.out.println("------------------------------------------------");
+	}
 }

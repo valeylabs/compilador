@@ -17,6 +17,10 @@ public class AnalisadorSintatico {
 
 		do {
 			t = al.nextToken();
-		} while (t.getCodigoToken() != TipoToken.EOF);
+			// t.printToken();
+			System.out.print(t.getCodigoToken() + " ");
+		} while (t.getCodigoToken() != TokenType.EOF);
+
+		ErrorHandler.printErrors();
 	}
 }

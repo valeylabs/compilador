@@ -4,28 +4,28 @@ public class Token {
 	
 	private String lexema;
 	
-	private TipoToken codigoToken;
+	private TokenType codigoToken;
 	
 	private int linha;
 	
 	private int coluna;
 
-	public Token(String lexema, TipoToken tipo, int linha, int coluna){
+	public Token(String lexema, TokenType tipo, int linha, int coluna){
 		this.lexema = lexema;
 		this.codigoToken = tipo;
 		this.linha = linha;
 		this.coluna = coluna;
 	}
 	
-	public Token(String lexema, TipoToken tipo){
+	public Token(String lexema, TokenType tipo){
 		this(lexema, tipo, 0, 0);
 	}
 	
-	public Token(char lexema, TipoToken tipo){
+	public Token(char lexema, TokenType tipo){
 		this(String.valueOf(lexema), tipo, 0, 0);
 	}
 	
-	public Token(char lexema, TipoToken tipo, int linha, int coluna){
+	public Token(char lexema, TokenType tipo, int linha, int coluna){
 		this(String.valueOf(lexema), tipo, linha, coluna);
 	}
 	
@@ -37,7 +37,7 @@ public class Token {
 		return lexema;
 	}
 
-	public TipoToken getCodigoToken() {
+	public TokenType getCodigoToken() {
 		return codigoToken;
 	}
 
@@ -47,5 +47,12 @@ public class Token {
 
 	public int getColuna() {
 		return coluna;
+	}
+	
+	public void printToken(){
+		System.out.println("Chave " + this.getLexema());
+	    System.out.println("TipoToken " + this.getCodigoToken());
+	    System.out.println("Lexema "  + this.getLexema());
+	    System.out.println("----------------------------------------");
 	}
 }

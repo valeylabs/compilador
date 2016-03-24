@@ -1,6 +1,6 @@
 package io.valey.compilador.analise;
 
-public enum TipoToken {
+public enum TokenType {
 	NUM_INT(1),
 	NUM_FLOAT(2),
 	LITERAL(3),
@@ -31,7 +31,7 @@ public enum TipoToken {
 	
 	private int id;
 	
-	TipoToken(int id){
+	TokenType(int id){
 		this.id = id;
 	}
 	
