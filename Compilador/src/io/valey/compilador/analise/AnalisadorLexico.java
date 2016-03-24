@@ -86,10 +86,13 @@ public class AnalisadorLexico {
 					return new Token(c, TipoToken.R_PAR, file.getLine(), file.getColumn());
 				case STATE_ID:
 					c = this.file.getNextChar();
-					if (!isLetter(c) && !isDigit(c, false)) {
+					if (isLetter(c) || isDigit(c, false))
+						lexema.append(c);
+					else {
 						this.file.rollbackChar();
 						return SymbolTable.installToken(lexema, file.getLine(), file.getColumn());
 					}
+
 					break;
 				case STATE_ATTRIB_OP:
 					c = this.file.getNextChar();
@@ -110,7 +113,7 @@ public class AnalisadorLexico {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return new Token("eof", TipoToken.EOF);
 	}
 

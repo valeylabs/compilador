@@ -1,10 +1,12 @@
 package io.valey.compilador;
 
+import java.io.IOException;
+
 import io.valey.compilador.analise.AnalisadorSintatico;
 import io.valey.compilador.analise.SymbolTable;
 
 public class Compilador {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		teste();
 
 		AnalisadorSintatico as = new AnalisadorSintatico("source.vl");
