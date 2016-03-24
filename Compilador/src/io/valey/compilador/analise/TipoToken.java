@@ -25,7 +25,8 @@ public enum TipoToken {
 	FOR(22),
 	WHILE(23),
 	DECLARE(24),
-	TO(25);
+	TO(25),
+	EOF(26);
 	
 	
 	private int id;

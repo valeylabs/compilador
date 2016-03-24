@@ -2,12 +2,12 @@ package io.valey.compilador.analise;
 
 public class AnalisadorSintatico {
 	AnalisadorLexico al;
-	TabelaSimbolos tabSimbolos;
+	SymbolTable tabSimbolos;
 	// ErrorHanndler errHandler;
 
 	public AnalisadorSintatico(String path) {
 		al = new AnalisadorLexico(path);
-		tabSimbolos = TabelaSimbolos.getInstance();
+		tabSimbolos = SymbolTable.getInstance();
 	}
 
 	public void execute() {
@@ -15,6 +15,6 @@ public class AnalisadorSintatico {
 
 		do {
 			t = al.nextToken();
-		} while (true/* t.getTokenCode() != TokenCode.EOF */);
+		} while (t.getCodigoToken() != TipoToken.EOF);
 	}
 }

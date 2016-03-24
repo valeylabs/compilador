@@ -21,6 +21,14 @@ public class Token {
 		this(lexema, tipo, 0, 0);
 	}
 	
+	public Token(char lexema, TipoToken tipo){
+		this(String.valueOf(lexema), tipo, 0, 0);
+	}
+	
+	public Token(char lexema, TipoToken tipo, int linha, int coluna){
+		this(String.valueOf(lexema), tipo, linha, coluna);
+	}
+	
 	public void setLexema(String lexema) {
 		this.lexema = lexema;
 	}

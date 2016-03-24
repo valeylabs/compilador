@@ -1,58 +1,26 @@
 package io.valey.compilador;
 
-import java.io.EOFException;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import io.valey.compilador.analise.AnalisadorSintatico;
+import io.valey.compilador.analise.SymbolTable;
 
 public class Compilador {
 	public static void main(String[] args) {
 		teste();
-		
+
 		AnalisadorSintatico as = new AnalisadorSintatico("source.vl");
 		as.execute();
 	}
 
 	private static void teste() {
 		try {
-			/**
-			 * Texto testado
-			 * ga
-			   iel
-			   test
-			 */
-			FileLoader file = new FileLoader("C:/Users/43596980895/Desktop/meuarquivo.txt");
-			try {
 
-				//while (true)
-					//System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
+			AnalisadorSintatico as = new AnalisadorSintatico("c:/users/42143954840/desktop/meuarquivo.txt");
+			as.execute();
 			
-				
-				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
-				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
-				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
-				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
-				file.rollbackChar();
-				file.rollbackChar();
-				file.rollbackChar();
-				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
-				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
-				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
-				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
-				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
-				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
-				file.rollbackChar();
-				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
-				System.out.print(file.getNextChar() + "(" + file.getLine() + "," + file.getColumn() + ")");
-				
-			} catch (EOFException e) {
-				System.out.println("\nChegamos ao fim!");
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("Problemas para abrir o arquivo. " + e.getMessage());
-		} catch (IOException e) {
-			System.out.println("Problemas na leitura do arquivo. " + e.getMessage());
+			SymbolTable.getInstance();
+
+		} catch (Exception e) {
+			System.out.println("\nChegamos ao fim!");
 		}
 	}
 }
