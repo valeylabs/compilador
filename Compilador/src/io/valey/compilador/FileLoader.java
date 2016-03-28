@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class FileLoader {
 	
-	public static final int EOF_CHAR = -1;
+	public static final char EOF_CHAR = (char) -1;
 	public static final char LINE_FEED = '\n';
 	public static final char CARRIAGE_RETURN = '\r';
 	
@@ -53,21 +53,8 @@ public class FileLoader {
 
 		int _char = this.buffer.read();
 		char result_char;
-
-		if (_char == EOF_CHAR)
-			throw new EOFException("");
-		
 		result_char = (char) _char;
-
 		this.countLineColumn(result_char);
-		
-		//TODO:: Remover
-		/*if(result_char == FileLoader.LINE_FEED)
-			result_char = '%';
-		else if(result_char == FileLoader.CARRIAGE_RETURN)
-			result_char = '*';*/
-		//TODO:: Remover
-
 		return result_char;
 	}
 

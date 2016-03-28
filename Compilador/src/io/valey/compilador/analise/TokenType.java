@@ -28,7 +28,6 @@ public enum TokenType {
 	TO(25),
 	EOF(26);
 	
-	
 	private int id;
 	
 	TokenType(int id){

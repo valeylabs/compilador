@@ -20,7 +20,5 @@ public class AnalisadorSintatico {
 			// t.printToken();
 			System.out.print(t.getCodigoToken() + " ");
 		} while (t.getCodigoToken() != TokenType.EOF);
-
-		ErrorHandler.printErrors();
 	}
 }
