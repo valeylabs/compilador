@@ -42,7 +42,6 @@ public class AnalisadorLexico {
 	private static final int STATE_REL_OP_FINAL = 16;
 	private static final int STATE_COMMENT = 17;
 	private static final int STATE_COMMENT_FINISH = 18;
-	
 
 	private FileLoader file;
 
@@ -55,18 +54,24 @@ public class AnalisadorLexico {
 		int state = STATE_INITIAL;
 
 		char c = ' ';
-
+		
 		int startLineLexema = file.getLine();
 		int startColumnLexema = file.getColumn();
-		
+
 		StringBuilder lexema = new StringBuilder();
-		
+
 		try {
 			while (true) {
 				switch (state) {
 				case STATE_INITIAL:
 					lexema = new StringBuilder();
-					c = this.file.getNextChar();
+					do {
+						c = this.file.getNextChar();
+					} while (Character.isWhitespace(c));
+
+					startLineLexema = file.getLine();
+					startColumnLexema = file.getColumn();
+					
 					if (c == '+' || c == '-') {
 						state = STATE_ADDSUB_OP;
 						break;
@@ -102,13 +107,11 @@ public class AnalisadorLexico {
 						lexema.append(c);
 						state = STATE_REL_OP_INITIAL;
 						break;
-					}else{
-						if(c == FileLoader.EOF_CHAR)
-							return new Token("eof", TokenType.EOF);
-						
-						if(c == '\n')
-							System.out.println("");
-						
+					} else if (c == FileLoader.EOF_CHAR) {
+						return new Token("eof", TokenType.EOF);
+					} else {
+						this.registerError(lexema.toString(), c);
+						state = STATE_INITIAL;
 						break;
 					}
 				case STATE_ADDSUB_OP:
@@ -140,7 +143,8 @@ public class AnalisadorLexico {
 					c = this.file.getNextChar();
 
 					if (c == '=')
-						return new Token(lexema.append(c).toString(), TokenType.ATTRIB_OP, startLineLexema, startColumnLexema);
+						return new Token(lexema.append(c).toString(), TokenType.ATTRIB_OP, startLineLexema,
+								startColumnLexema);
 					else if (c == '[') {
 						lexema.append(c);
 						state = STATE_COMMENT;
@@ -149,20 +153,20 @@ public class AnalisadorLexico {
 						this.file.rollbackChar();
 						state = STATE_INITIAL;
 					}
-					
+
 					break;
 				case STATE_COMMENT:
 					c = this.file.getNextChar();
-					if(c == ']'){
+					if (c == ']') {
 						lexema.append(c);
 						state = STATE_COMMENT_FINISH;
 					}
 					break;
 				case STATE_COMMENT_FINISH:
 					c = this.file.getNextChar();
-					if(c == ':'){
+					if (c == ':') {
 						state = STATE_INITIAL;
-					}else{
+					} else {
 						lexema.append(c);
 						state = STATE_COMMENT;
 					}
@@ -220,7 +224,8 @@ public class AnalisadorLexico {
 				case STATE_REL_OP_FINAL:
 					c = this.file.getNextChar();
 					if (isDollar(c)) {
-						return new Token(lexema.append(c).toString(), TokenType.REL_OP, startLineLexema, startColumnLexema);
+						return new Token(lexema.append(c).toString(), TokenType.REL_OP, startLineLexema,
+								startColumnLexema);
 					} else {
 						this.registerError(lexema.toString(), c);
 						this.file.rollbackChar();
@@ -322,17 +327,17 @@ public class AnalisadorLexico {
 					break;
 				}
 			}
-		} catch (EOFException e) {			
+		} catch (EOFException e) {
 			return new Token("eof", TokenType.EOF);
 		} catch (IOException e) {
-			
+
 		}
-		
+
 		return new Token("eof", TokenType.EOF);
 	}
 
 	private void registerError(String lexema, char c) {
-		ErrorHandler.addError(new Error("Unexpected char " + c + " in lexema: \"" + lexema + "\"", this.file.getLine(),
+		ErrorHandler.addError(new Error("Unexpected char \"" + c + "\" in lexema: \"" + lexema + "\"", this.file.getLine(),
 				this.file.getColumn(), TipoErro.Lexico));
 	}
 

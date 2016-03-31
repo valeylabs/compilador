@@ -34,8 +34,13 @@ public class SymbolTable extends HashMap<String, Token> {
 	}
 
 	public static Token installToken(String lexema, int line, int column) {
-		if (getInstance().containsKey(lexema))
-			return getInstance().get(lexema);
+		if (getInstance().containsKey(lexema)){
+			Token t = getInstance().get(lexema);
+			if(t.getCodigoToken() != TokenType.ID)
+				t.setLinhaColuna(line, column);
+				
+			return t;
+		}
 
 		Token token = new Token(lexema, TokenType.ID, line, column);
 		getInstance().put(lexema, token);
@@ -50,8 +55,8 @@ public class SymbolTable extends HashMap<String, Token> {
 		this.put(tk.getLexema(), tk);
 	}
 	
-	public void printMap(){
-		for(Entry<String, Token> entry : this.entrySet()) {
+	public static void printTable(){
+		for(Entry<String, Token> entry : getInstance().entrySet()) {
 		    String key = entry.getKey();
 		    Token value = entry.getValue();
 		    

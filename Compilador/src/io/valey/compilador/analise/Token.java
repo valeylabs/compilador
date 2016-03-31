@@ -1,7 +1,7 @@
 package io.valey.compilador.analise;
 
 public class Token {
-	
+
 	private String lexema;
 	
 	private TokenType codigoToken;
@@ -49,10 +49,20 @@ public class Token {
 		return coluna;
 	}
 	
+	public String getLinhaColuna(){
+		return "("+this.getLinha()+","+this.getColuna()+")";
+	}
+	
 	public void printToken(){
 		System.out.println("Chave " + this.getLexema());
 	    System.out.println("TipoToken " + this.getCodigoToken());
 	    System.out.println("Lexema "  + this.getLexema());
 	    System.out.println("----------------------------------------");
+	}
+
+
+	public void setLinhaColuna(int linha, int coluna) {
+		this.linha = linha;
+		this.coluna = coluna;
 	}
 }
