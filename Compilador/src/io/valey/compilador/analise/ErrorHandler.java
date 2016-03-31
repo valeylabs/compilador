@@ -22,8 +22,15 @@ public class ErrorHandler {
 
 	
 	public static void printErrors(){
+		System.out.println("------------------------------------------------");
+		System.out.println("|               ERROS ENCONTRADOS              |");
+		System.out.println("------------------------------------------------");
+		int i = 0;
 		for (final Error e : getInstance().errors) {
+			i++;
 			e.printError();
 		}
+		if(i == 0)
+			System.out.println("Não foi encontrado nenhum erro!");
 	}
 }

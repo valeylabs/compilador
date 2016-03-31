@@ -56,11 +56,17 @@ public class SymbolTable extends HashMap<String, Token> {
 	}
 	
 	public static void printTable(){
+		System.out.println("---------------------------------");
+		System.out.println("|       TABELA DE SIMBOLOS      |");
+		System.out.println("---------------------------------");
+		System.out.println("|     LEXEMA     |    TOKEN     |");
+		System.out.println("---------------------------------");
 		for(Entry<String, Token> entry : getInstance().entrySet()) {
 		    String key = entry.getKey();
 		    Token value = entry.getValue();
 		    
 		    value.printToken();
 		}
+		System.out.println("---------------------------------");
 	}
 }

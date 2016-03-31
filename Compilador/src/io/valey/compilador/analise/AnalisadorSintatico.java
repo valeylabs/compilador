@@ -16,13 +16,19 @@ public class AnalisadorSintatico {
 		Token t = null;
 
 		System.out.println("-------------------------------------------------");
+		System.out.println("|          TOKENS DO ANALISADOR LEXICO          |");
+		System.out.println("-------------------------------------------------");
 		System.out.println("|  #  |    TIPO    |    LEXEMA    |   POSICAO   |");
 		System.out.println("-------------------------------------------------");
 		int i = 0;
 		do {
 			i++;
 			t = al.nextToken();
-			System.out.println(i + "|" + t.getCodigoToken() + "|" + t.getLexema() + "|" + t.getLinhaColuna());
+			System.out.println(
+					"|" + StringHelper.padRight(i, 5) + "|" + StringHelper.padRight(t.getCodigoToken().toString(), 12)
+							+ "|" + StringHelper.padRight(t.getLexema(), 14) + "|"
+							+ StringHelper.padRight(t.getLinhaColuna(), 13) + "|");
 		} while (t.getCodigoToken() != TokenType.EOF);
+		System.out.println("-------------------------------------------------");
 	}
 }
