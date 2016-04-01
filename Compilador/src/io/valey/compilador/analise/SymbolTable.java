@@ -1,3 +1,13 @@
+/**
+ * Alunos: 
+ * Erik Zerbinatti      37816817851
+ * Gabriel Malaquias    42143954840
+ * Guilherme Ventura    43596980895
+ * Luiz Fernando Santos 42547332833 
+ * 
+ * Curso: Ciência da Computação 7º Semestre
+ */
+
 package io.valey.compilador.analise;
 
 import java.security.GeneralSecurityException;
@@ -34,11 +44,11 @@ public class SymbolTable extends HashMap<String, Token> {
 	}
 
 	public static Token installToken(String lexema, int line, int column) {
-		if (getInstance().containsKey(lexema)){
+		if (getInstance().containsKey(lexema)) {
 			Token t = getInstance().get(lexema);
-			if(t.getCodigoToken() != TokenType.ID)
+			if (t.getCodigoToken() != TokenType.ID)
 				t.setLinhaColuna(line, column);
-				
+
 			return t;
 		}
 
@@ -46,7 +56,7 @@ public class SymbolTable extends HashMap<String, Token> {
 		getInstance().put(lexema, token);
 		return token;
 	}
-	
+
 	public static Token installToken(StringBuilder lexema, int line, int column) {
 		return installToken(lexema.toString(), line, column);
 	}
@@ -54,18 +64,18 @@ public class SymbolTable extends HashMap<String, Token> {
 	private void installKeyword(Token tk) {
 		this.put(tk.getLexema(), tk);
 	}
-	
-	public static void printTable(){
+
+	public static void printTable() {
 		System.out.println("---------------------------------");
 		System.out.println("|       TABELA DE SIMBOLOS      |");
 		System.out.println("---------------------------------");
 		System.out.println("|     LEXEMA     |    TOKEN     |");
 		System.out.println("---------------------------------");
-		for(Entry<String, Token> entry : getInstance().entrySet()) {
-		    String key = entry.getKey();
-		    Token value = entry.getValue();
-		    
-		    value.printToken();
+		for (Entry<String, Token> entry : getInstance().entrySet()) {
+			String key = entry.getKey();
+			Token value = entry.getValue();
+
+			value.printToken();
 		}
 		System.out.println("---------------------------------");
 	}

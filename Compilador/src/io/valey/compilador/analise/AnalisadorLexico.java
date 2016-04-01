@@ -1,3 +1,13 @@
+/**
+ * Alunos: 
+ * Erik Zerbinatti      37816817851
+ * Gabriel Malaquias    42143954840
+ * Guilherme Ventura    43596980895
+ * Luiz Fernando Santos 42547332833 
+ * 
+ * Curso: Ciência da Computação 7º Semestre
+ */
+
 package io.valey.compilador.analise;
 
 import java.io.EOFException;
@@ -54,7 +64,7 @@ public class AnalisadorLexico {
 		int state = STATE_INITIAL;
 
 		char c = ' ';
-		
+
 		int startLineLexema = file.getLine();
 		int startColumnLexema = file.getColumn();
 
@@ -71,7 +81,7 @@ public class AnalisadorLexico {
 
 					startLineLexema = file.getLine();
 					startColumnLexema = file.getColumn();
-					
+
 					if (c == '+' || c == '-') {
 						state = STATE_ADDSUB_OP;
 						break;
@@ -337,8 +347,8 @@ public class AnalisadorLexico {
 	}
 
 	private void registerError(String lexema, char c) {
-		ErrorHandler.addError(new Error("Unexpected char \"" + c + "\" in lexema: \"" + lexema + "\"", this.file.getLine(),
-				this.file.getColumn(), TipoErro.Lexico));
+		ErrorHandler.addError(new Error("Unexpected char \"" + c + "\" in lexema: \"" + lexema + "\"",
+				this.file.getLine(), this.file.getColumn(), TipoErro.Lexico));
 	}
 
 	private boolean isLetter(char c) {
