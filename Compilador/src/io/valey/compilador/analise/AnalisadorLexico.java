@@ -118,7 +118,7 @@ public class AnalisadorLexico {
 						state = STATE_REL_OP_INITIAL;
 						break;
 					} else if (c == FileLoader.EOF_CHAR) {
-						return new Token("eof", TokenType.EOF);
+						return new Token("eof", TokenType.EOF, startLineLexema, startColumnLexema);
 					} else {
 						this.registerError(lexema.toString(), c);
 						state = STATE_INITIAL;
@@ -193,8 +193,8 @@ public class AnalisadorLexico {
 						lexema.append(c);
 						state = STATE_REL_OP_F;
 					} else {
-						this.registerError(lexema.toString(), c);
-						this.file.rollbackChar();
+						this.registerError(lexema.toString() + c, c);
+						//this.file.rollbackChar();
 						state = STATE_INITIAL;
 					}
 					break;
@@ -204,8 +204,8 @@ public class AnalisadorLexico {
 						lexema.append(c);
 						state = STATE_REL_OP_FINAL;
 					} else {
-						this.registerError(lexema.toString(), c);
-						this.file.rollbackChar();
+						this.registerError(lexema.toString() + c, c);
+						//this.file.rollbackChar();
 						state = STATE_INITIAL;
 					}
 					break;
@@ -215,8 +215,8 @@ public class AnalisadorLexico {
 						lexema.append(c);
 						state = STATE_REL_OP_FINAL;
 					} else {
-						this.registerError(lexema.toString(), c);
-						this.file.rollbackChar();
+						this.registerError(lexema.toString() + c, c);
+						//this.file.rollbackChar();
 						state = STATE_INITIAL;
 					}
 					break;
@@ -226,8 +226,8 @@ public class AnalisadorLexico {
 						lexema.append(c);
 						state = STATE_REL_OP_FINAL;
 					} else {
-						this.registerError(lexema.toString(), c);
-						this.file.rollbackChar();
+						this.registerError(lexema.toString() + c, c);
+						//this.file.rollbackChar();
 						state = STATE_INITIAL;
 					}
 					break;
@@ -237,8 +237,8 @@ public class AnalisadorLexico {
 						return new Token(lexema.append(c).toString(), TokenType.REL_OP, startLineLexema,
 								startColumnLexema);
 					} else {
-						this.registerError(lexema.toString(), c);
-						this.file.rollbackChar();
+						this.registerError(lexema.toString() + c, c);
+						//this.file.rollbackChar();
 						state = STATE_INITIAL;
 					}
 					break;
@@ -277,8 +277,8 @@ public class AnalisadorLexico {
 						lexema.append(c);
 						state = STATE_DIGIT_4;
 					} else {
-						this.registerError(lexema.toString(), c);
-						this.file.rollbackChar();
+						this.registerError(lexema.toString() + c, c);
+						//this.file.rollbackChar();
 						state = STATE_INITIAL;
 					}
 					break;
@@ -288,8 +288,8 @@ public class AnalisadorLexico {
 						lexema.append(c);
 						state = STATE_DIGIT_5;
 					} else {
-						this.registerError(lexema.toString(), c);
-						this.file.rollbackChar();
+						this.registerError(lexema.toString() + c, c);
+						//this.file.rollbackChar();
 						state = STATE_INITIAL;
 					}
 					break;
@@ -309,8 +309,8 @@ public class AnalisadorLexico {
 						lexema.append(c);
 						state = STATE_DIGIT_7;
 					} else {
-						this.registerError(lexema.toString(), c);
-						this.file.rollbackChar();
+						this.registerError(lexema.toString() + c, c);
+						//this.file.rollbackChar();
 						state = STATE_INITIAL;
 					}
 					break;
@@ -320,8 +320,8 @@ public class AnalisadorLexico {
 						lexema.append(c);
 						state = STATE_DIGIT_8;
 					} else {
-						this.registerError(lexema.toString(), c);
-						this.file.rollbackChar();
+						this.registerError(lexema.toString() + c, c);
+						//this.file.rollbackChar();
 						state = STATE_INITIAL;
 					}
 					break;

@@ -21,7 +21,7 @@ import io.valey.compilador.analise.Token;
 public class Compilador {
 
 	public static void main(String[] args) throws IOException {
-		AnalisadorSintatico as = new AnalisadorSintatico("c:/users/gabriel.malaquias/desktop/meuarquivo.txt");
+		AnalisadorSintatico as = new AnalisadorSintatico("c:/users/42143954840/desktop/meuarquivo.txt");
 		as.execute();
 
 		System.out.println("");
