@@ -137,6 +137,8 @@ public class AnalisadorLexico {
 				case STATE_QUOTE:
 					c = this.file.getNextChar();
 					lexema.append(c);
+					if(c == FileLoader.EOF_CHAR)
+						return new Token("eof", TokenType.EOF);
 					if (isQuote(c))
 						return new Token(lexema.toString(), TokenType.LITERAL, startLineLexema, startColumnLexema);
 					break;
