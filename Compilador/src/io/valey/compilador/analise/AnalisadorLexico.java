@@ -18,24 +18,17 @@ import sun.security.x509.IssuingDistributionPointExtension;
 
 public class AnalisadorLexico {
 
+	public Token buffer = null;
+	
 	private static final int STATE_INITIAL = 1;
-
 	private static final int STATE_ID = 2;
-
 	private static final int STATE_ADDSUB_OP = 6;
-
 	private static final int STATE_MULTDIV_OP = 7;
-
 	private static final int STATE_ATTRIB_OP = 8;
-
 	private static final int STATE_TERM = 9;
-
 	private static final int STATE_L_PAR = 10;
-
 	private static final int STATE_R_PAR = 11;
-
 	private static final int STATE_QUOTE = 12;
-
 	private static final int STATE_DIGIT_INITIAL = 41;
 	private static final int STATE_DIGIT_2 = 42;
 	private static final int STATE_DIGIT_3 = 43;
@@ -44,7 +37,6 @@ public class AnalisadorLexico {
 	private static final int STATE_DIGIT_6 = 46;
 	private static final int STATE_DIGIT_7 = 47;
 	private static final int STATE_DIGIT_8 = 48;
-
 	private static final int STATE_REL_OP_INITIAL = 5;
 	private static final int STATE_REL_OP_F = 13;
 	private static final int STATE_REL_OP_T_OR_E = 14;
@@ -69,6 +61,13 @@ public class AnalisadorLexico {
 		int startColumnLexema = file.getColumn();
 
 		StringBuilder lexema = new StringBuilder();
+		
+		if(this.buffer != null){
+			Token retorno = buffer;
+			this.buffer = null;
+			return retorno;
+		}
+			
 
 		try {
 			while (true) {
@@ -346,6 +345,10 @@ public class AnalisadorLexico {
 		}
 
 		return new Token("eof", TokenType.EOF);
+	}
+	
+	public void storeToken(Token t){
+		this.buffer = t;
 	}
 
 	private void registerError(String lexema, char c) {
