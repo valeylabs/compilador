@@ -16,7 +16,7 @@ import java.io.IOException;
 import io.valey.compilador.FileLoader;
 import sun.security.x509.IssuingDistributionPointExtension;
 
-public class AnalisadorLexico {
+public class Lexico {
 
 	public Token buffer = null;
 	
@@ -47,7 +47,7 @@ public class AnalisadorLexico {
 
 	private FileLoader file;
 
-	public AnalisadorLexico(String path) throws IOException {
+	public Lexico(String path) throws IOException {
 		this.file = new FileLoader(path);
 	}
 
@@ -136,8 +136,10 @@ public class AnalisadorLexico {
 				case STATE_QUOTE:
 					c = this.file.getNextChar();
 					lexema.append(c);
-					if(c == FileLoader.EOF_CHAR)
+					if(c == FileLoader.EOF_CHAR){
+						this.registerError(lexema.toString(), c);
 						return new Token("eof", TokenType.EOF);
+					}
 					if (isQuote(c))
 						return new Token(lexema.toString(), TokenType.LITERAL, startLineLexema, startColumnLexema);
 					break;
