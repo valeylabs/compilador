@@ -41,6 +41,7 @@ public class Mapa {
 	FirstFollow repw = new FirstFollow();
 	
 	public Mapa(){
+		cmds.follow.add(TokenType.END);
 		
 //		
 //		this.mapa.put("S", s);

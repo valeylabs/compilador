@@ -18,6 +18,7 @@ public class Sintatico {
 
 	public Sintatico(String path) throws IOException {
 		al = new Lexico(path);
+		//this.executeTest();
 	}
 
 	public void execute(){
@@ -50,6 +51,8 @@ public class Sintatico {
 			}else{
 				//TODO::
 			}
+		}else if(t.getCodigoToken() == TokenType.EOF){
+			
 		}else{
 			//registra o erro que nao achou o program
 			derivaS();
@@ -63,8 +66,10 @@ public class Sintatico {
 			t = al.nextToken();
 			if(t.getCodigoToken() == TokenType.END){
 				
+			}else{
+				//TODO::
 			}
-		}else if(mapa.cmd.first.contains(t)){
+		}else if(mapa.cmd.first.contains(t.getCodigoToken())){
 			derivaCMD();
 		}else{
 			//TODO::
@@ -79,10 +84,10 @@ public class Sintatico {
 			derivaIFFLW();
 		}else if(t.getCodigoToken() == TokenType.DECLARE){
 			derivaDCFLW();
-		}else if(mapa.repw.first.contains(t)){
+		}else if(mapa.repw.first.contains(t.getCodigoToken())){
 			derivaREPW();
 			derivaCMDS();
-		}else if(mapa.cmds.follow.contains(t)){
+		}else if(mapa.cmds.follow.contains(t.getCodigoToken())){
 			al.storeToken(t);
 		}else{
 			//TODO::
@@ -91,13 +96,13 @@ public class Sintatico {
 	
 	public void derivaCMD(){
 		Token t = al.nextToken();
-		if(mapa.rep.first.contains(t)){
+		if(mapa.rep.first.contains(t.getCodigoToken())){
 			derivaREP();
-		}else if(mapa.atrib.first.contains(t)){
+		}else if(mapa.atrib.first.contains(t.getCodigoToken())){
 			derivaATRIB();
-		}else if(mapa.cond.first.contains(t)){
+		}else if(mapa.cond.first.contains(t.getCodigoToken())){
 			derivaCOND();
-		}else if(mapa.decl.first.contains(t)){
+		}else if(mapa.decl.first.contains(t.getCodigoToken())){
 			derivaDECL();
 		}else{
 			//TODO::
