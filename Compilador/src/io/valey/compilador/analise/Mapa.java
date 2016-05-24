@@ -41,37 +41,35 @@ public class Mapa {
 	FirstFollow repw = new FirstFollow();
 	
 	public Mapa(){
-		cmds.follow.add(TokenType.END);
+		// S
+		s.first.add(TokenType.PROGRAM);
+		s.follow.add(TokenType.EOF);
 		
-//		
-//		this.mapa.put("S", s);
-//		this.mapa.put("BLOCO", bloco);
-//		this.mapa.put("CMDS", cmds);
-//		this.mapa.put("IFFLW", ifflw);
-//		this.mapa.put("IDFLW", idflw);
-//		this.mapa.put("DCFLW", dcflw);
-//		this.mapa.put("CMD", cmd);
-//		this.mapa.put("DECL", decl);
-//		this.mapa.put("COND", cond);
-//		this.mapa.put("CNDB", cndb);
-//		this.mapa.put("ATRIB", atrib);
-//		this.mapa.put("EXP", exp);
-//		this.mapa.put("EXPL", expl);
-//		this.mapa.put("LOGFLW", logflw);
-//		this.mapa.put("GENFLW", genflw);
-//		this.mapa.put("GENFLW1", genflw1);
-//		this.mapa.put("GENFLW2", genflw2);
-//		this.mapa.put("GENFLW3", genflw3);
-//		this.mapa.put("EXPR", expr);
-//		
-//		this.mapa.put("EXPN", expn);
-//		this.mapa.put("EXPN1", expn1);
-//		this.mapa.put("TERMON", termon);
-//		this.mapa.put("TERMON1", termon1);
-//		this.mapa.put("VALN", valn);
-//		this.mapa.put("REP", rep);
-//		this.mapa.put("REPF", repf);
-//		this.mapa.put("REPW", repw);		
+		// BLOCO
+		bloco.first.add(TokenType.ID);
+		bloco.first.add(TokenType.BEGIN);
+		bloco.first.add(TokenType.DECLARE);
+		bloco.first.add(TokenType.IF);
+		bloco.first.add(TokenType.FOR);
+		bloco.first.add(TokenType.WHILE);
+		
+		bloco.follow.add(TokenType.ID);
+		bloco.follow.add(TokenType.END_PROGRAM);
+		bloco.follow.add(TokenType.END);
+		bloco.follow.add(TokenType.DECLARE);
+		bloco.follow.add(TokenType.IF);
+		bloco.follow.add(TokenType.ELSE);
+		bloco.follow.add(TokenType.FOR);
+		bloco.follow.add(TokenType.WHILE);
+		
+		//CMDS
+		cmds.first.add(TokenType.ID);
+		cmds.first.add(TokenType.DECLARE);
+		cmds.first.add(TokenType.IF);
+		cmds.first.add(TokenType.FOR);
+		cmds.first.add(TokenType.WHILE);
+		
+		cmds.follow.add(TokenType.END);
 	}
 	
 
