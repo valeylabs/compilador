@@ -12,17 +12,14 @@
 package io.valey.compilador;
 
 import java.io.IOException;
-import java.util.Map.Entry;
-
 import io.valey.compilador.analise.Sintatico;
 import io.valey.compilador.analise.ErrorHandler;
 import io.valey.compilador.analise.SymbolTable;
-import io.valey.compilador.analise.Token;
 
 public class Compilador {
 
 	public static void main(String[] args) throws IOException {
-		Sintatico as = new Sintatico("c:/users/Gabriel/desktop/meuarquivo.txt");
+		Sintatico as = new Sintatico("c:/users/gabriel.malaquias/desktop/meuarquivo.txt");
 		as.execute();
 
 		System.out.println("");
