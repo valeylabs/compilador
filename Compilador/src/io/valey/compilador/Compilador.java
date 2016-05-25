@@ -19,7 +19,7 @@ import io.valey.compilador.analise.SymbolTable;
 public class Compilador {
 
 	public static void main(String[] args) throws IOException {
-		Sintatico as = new Sintatico("c:/users/gabriel.malaquias/desktop/meuarquivo.txt");
+		Sintatico as = new Sintatico("c:/users/Gabriel/desktop/meuarquivo.txt");
 		as.execute();
 
 		System.out.println("");
