@@ -6,7 +6,7 @@
  * Guilherme Ventura    43596980895
  * Luiz Fernando Santos 42547332833 
  * 
- * Curso: Ciência da Computação 7º Semestre
+ * Curso: Ciï¿½ncia da Computaï¿½ï¿½o 7ï¿½ Semestre
  */
 
 package io.valey.compilador;
@@ -19,7 +19,7 @@ import io.valey.compilador.analise.SymbolTable;
 public class Compilador {
 
 	public static void main(String[] args) throws IOException {
-		Sintatico as = new Sintatico("c:/users/Gabriel/desktop/meuarquivo.txt");
+		Sintatico as = new Sintatico("/Users/gventura/git/valeylabs/compilador/meuarquivo.txt");
 		as.execute();
 
 		System.out.println("");

@@ -5,7 +5,7 @@
  * Guilherme Ventura    43596980895
  * Luiz Fernando Santos 42547332833 
  * 
- * Curso: Ciência da Computação 7º Semestre
+ * Curso: Ciï¿½ncia da Computaï¿½ï¿½o 7ï¿½ Semestre
  */
 
 package io.valey.compilador.analise;
@@ -77,10 +77,11 @@ public class Sintatico {
 			}else{
 				//TODO::
 			}
-		}else if(mapa.cmd.first.contains(t.getCodigoToken())){
+		}else if(mapa.cmd.first.contains(t.getCodigoToken())){ //ou valida pelo que estao na tabelas 
+			al.storeToken(t);
 			derivaCMD();
 		}else{
-			//TODO::
+			//TODO:: 
 		}
 	}
 	
@@ -101,6 +102,7 @@ public class Sintatico {
 		}else if(t.getCodigoToken() == TokenType.DECLARE){
 			derivaDCFLW();
 		}else if(mapa.repw.first.contains(t.getCodigoToken())){
+			//devolver token
 			derivaREPW();
 			derivaCMDS();
 		}else if(mapa.repf.first.contains(t.getCodigoToken())){
