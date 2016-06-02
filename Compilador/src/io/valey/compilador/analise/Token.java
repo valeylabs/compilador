@@ -19,6 +19,8 @@ public class Token {
 	private int linha;
 
 	private int coluna;
+	
+	private Boolean declarado;
 
 	public Token(String lexema, TokenType tipo, int linha, int coluna) {
 		this.lexema = lexema;
@@ -71,5 +73,13 @@ public class Token {
 	public void setLinhaColuna(int linha, int coluna) {
 		this.linha = linha;
 		this.coluna = coluna;
+	}
+	
+	public void setDeclarado(Boolean b){
+		this.declarado = b;
+	}
+	
+	public Boolean isDeclarado(){
+		return this.declarado;
 	}
 }

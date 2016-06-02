@@ -48,7 +48,9 @@ public class SymbolTable extends HashMap<String, Token> {
 			Token t = getInstance().get(lexema);
 			if (t.getCodigoToken() != TokenType.ID)
 				t.setLinhaColuna(line, column);
-
+			else 
+				t.setDeclarado(true);
+				
 			return t;
 		}
 

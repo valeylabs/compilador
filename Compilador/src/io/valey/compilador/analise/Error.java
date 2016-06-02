@@ -60,6 +60,10 @@ public class Error {
 	}
 
 	public void printError() {
-		System.out.println(StringHelper.padRight("| (" + this.getLinha() + "," + this.getColuna() + ") " + this.getMensagem(), 70) + "|" );		
+		System.out.println(StringHelper.padRight("| " + 
+				((this.tipo == TipoErro.Lexico) ? 
+						"(" + this.getLinha() + "," + this.getColuna() + ")" 
+						: ""
+				) + this.getMensagem(), 70) + "|" );		
 	}
 }
