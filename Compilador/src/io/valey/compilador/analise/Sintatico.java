@@ -107,7 +107,7 @@ public class Sintatico {
 	}
 
 	/*
-	 * IFFLW::= l_par EXPL r_par then BLOCO CMDS
+	 * IFFLW::= l_par EXPL r_par then BLOCO CNDB CMDS
 	 */
 	public void derivaIFFLW() {
 		Token t = al.nextToken();
@@ -118,6 +118,7 @@ public class Sintatico {
 				t = al.nextToken();
 				if (t.getCodigoToken() == TokenType.THEN) {
 					derivaBLOCO();
+					derivaCNDB();
 					derivaCMDS();
 				} else {
 					// TODO::
