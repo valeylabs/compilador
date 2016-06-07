@@ -20,7 +20,7 @@ public class Token {
 
 	private int coluna;
 	
-	private Boolean declarado;
+	private Boolean declarado = false;
 
 	public Token(String lexema, TokenType tipo, int linha, int coluna) {
 		this.lexema = lexema;
