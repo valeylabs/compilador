@@ -59,11 +59,12 @@ public class Sintatico {
 	}
 
 	/*
-	 * BLOCO::= begin CMDS end BLOCO::=CMD
+	 * BLOCO::= begin CMDS end 
+	 * BLOCO::= CMD
 	 */
 	public void derivaBLOCO() {
 		Token t = al.nextToken();
-		if (t.getCodigoToken() != TokenType.BEGIN) {
+		if (t.getCodigoToken() == TokenType.BEGIN) {
 			derivaCMDS();
 			t = al.nextToken();
 			if (t.getCodigoToken() == TokenType.END) {
@@ -74,8 +75,6 @@ public class Sintatico {
 		} else if (mapa.cmd.first.contains(t.getCodigoToken())) {
 			al.storeToken(t);
 			derivaCMD();
-		} else {
-			// TODO::
 		}
 	}
 
@@ -155,6 +154,9 @@ public class Sintatico {
 	public void derivaDCFLW() {
 		Token t = al.nextToken();
 		if (t.getCodigoToken() == TokenType.ID) {
+			if(t.isDeclarado()){
+				RegisterErrorSemantico("ID "+t.getLexema()+" já foi declarado", t);
+			}
 			t = al.nextToken();
 			if (t.getCodigoToken() == TokenType.TYPE) {
 				t = al.nextToken();
@@ -201,6 +203,9 @@ public class Sintatico {
 		if (t.getCodigoToken() == TokenType.DECLARE) {
 			t = al.nextToken();
 			if (t.getCodigoToken() == TokenType.ID) {
+				if(t.isDeclarado()){
+					RegisterErrorSemantico("ID "+t.getLexema()+" já foi declarado", t);
+				}
 				t = al.nextToken();
 				if (t.getCodigoToken() == TokenType.TYPE) {
 					t = al.nextToken();
