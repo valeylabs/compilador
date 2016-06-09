@@ -47,7 +47,11 @@ public class Sintatico {
 
 		derivaBLOCO();
 
-		t = al.nextToken();
+		
+		while(t.getCodigoToken() != TokenType.END_PROGRAM && t.getCodigoToken() != TokenType.EOF){
+			t = al.nextToken();
+		}
+		
 		if (t.getCodigoToken() != TokenType.END_PROGRAM) {
 			this.RegisterErrorSintatico("É necessário fechar seu PROGRAM com END_PROG", t, true);
 		}
@@ -73,6 +77,13 @@ public class Sintatico {
 		} else if (mapa.cmd.first.contains(t.getCodigoToken())) {
 			al.storeToken(t);
 			derivaCMD();
+		}else{
+			this.RegisterErrorSintatico("Não é possivel iniciar um bloco com " + t.getLexema() + " use BEGIN ", t, (t.getCodigoToken() == TokenType.END_PROGRAM));
+			derivaCMDS();
+			t = al.nextToken();
+			if (t.getCodigoToken() != TokenType.END) {
+				this.RegisterErrorSintatico("É esperado um END ao final de um bloco", t, true);
+			}
 		}
 	}
 
@@ -177,7 +188,9 @@ public class Sintatico {
 	}
 
 	/*
-	 * CMD::=REP CMD::=ATRIB CMD::= COND CMD::=DECL
+	 * CMD::=REP 
+	 * CMD::=ATRIB 
+	 * CMD::= COND CMD::=DECL
 	 */
 	public void derivaCMD() {
 		Token t = al.nextToken();
