@@ -67,10 +67,8 @@ public class Sintatico {
 		if (t.getCodigoToken() == TokenType.BEGIN) {
 			derivaCMDS();
 			t = al.nextToken();
-			if (t.getCodigoToken() == TokenType.END) {
-
-			} else {
-				// TODO::
+			if (t.getCodigoToken() != TokenType.END) {
+				this.RegisterErrorSintatico("É esperado um END ao final de um bloco", t, true);
 			}
 		} else if (mapa.cmd.first.contains(t.getCodigoToken())) {
 			al.storeToken(t);
@@ -79,12 +77,17 @@ public class Sintatico {
 	}
 
 	/*
-	 * CMDS::= REPW CMDS CMDS::= id IDFLW CMDS::= REPF CMDS CMDS::= if IFFLW
+	 * CMDS::= REPW CMDS 
+	 * CMDS::= id 
+	 * IDFLW CMDS::= REPF CMDS CMDS::= if IFFLW
 	 * CMDS::= declare DCFLW CMDS:= vazio
 	 */
 	public void derivaCMDS() {
 		Token t = al.nextToken();
 		if (t.getCodigoToken() == TokenType.ID) {
+			if(!t.isDeclarado()){
+				RegisterErrorSemantico("ID "+t.getLexema()+" não foi declarado", t);
+			}
 			derivaIDFLW();
 		} else if (t.getCodigoToken() == TokenType.IF) {
 			derivaIFFLW();
@@ -274,6 +277,9 @@ public class Sintatico {
 	public void derivaATRIB() {
 		Token t = al.nextToken();
 		if (t.getCodigoToken() == TokenType.ID) {
+			if(!t.isDeclarado()){
+				RegisterErrorSemantico("ID "+t.getLexema()+" não foi declarado", t);
+			}
 			t = al.nextToken();
 			if (t.getCodigoToken() == TokenType.ATTRIB_OP) {
 				derivaEXP();
@@ -306,6 +312,9 @@ public class Sintatico {
 				// TODO::
 			}
 		} else if (t.getCodigoToken() == TokenType.ID) {
+			if(!t.isDeclarado()){
+				RegisterErrorSemantico("ID "+t.getLexema()+" não foi declarado", t);
+			}
 			derivaGENFLW();
 		} else if (t.getCodigoToken() == TokenType.NUM_FLOAT || t.getCodigoToken() == TokenType.NUM_INT) {
 			derivaGENFLW1();
@@ -333,6 +342,9 @@ public class Sintatico {
 				// TODO::
 			}
 		} else if (t.getCodigoToken() == TokenType.ID) {
+			if(!t.isDeclarado()){
+				RegisterErrorSemantico("ID "+t.getLexema()+" não foi declarado", t);
+			}
 			derivaGENFLW();
 		} else if (t.getCodigoToken() == TokenType.NUM_FLOAT || t.getCodigoToken() == TokenType.NUM_INT) {
 			derivaGENFLW1();
@@ -501,6 +513,9 @@ public class Sintatico {
 		if (t.getCodigoToken() == TokenType.L_PAR) {
 
 		} else if (t.getCodigoToken() == TokenType.ID) {
+			if(!t.isDeclarado()){
+				RegisterErrorSemantico("ID "+t.getLexema()+" não foi declarado", t);
+			}
 
 		} else if (t.getCodigoToken() == TokenType.NUM_FLOAT) {
 
@@ -535,6 +550,9 @@ public class Sintatico {
 		if (t.getCodigoToken() == TokenType.FOR) {
 			t = al.nextToken();
 			if (t.getCodigoToken() == TokenType.ID) {
+				if(!t.isDeclarado()){
+					RegisterErrorSemantico("ID "+t.getLexema()+" não foi declarado", t);
+				}
 				t = al.nextToken();
 				if (t.getCodigoToken() == TokenType.ATTRIB_OP) {
 					derivaEXPN();
