@@ -46,11 +46,11 @@ public class SymbolTable extends HashMap<String, Token> {
 	public static Token installToken(String lexema, int line, int column) {
 		if (getInstance().containsKey(lexema)) {
 			Token t = getInstance().get(lexema);
-			if (t.getCodigoToken() != TokenType.ID)
-				t.setLinhaColuna(line, column);
-			else 
+			if (t.getCodigoToken() == TokenType.ID)
 				t.setDeclarado(true);
-				
+			
+			t.setLinhaColuna(line, column);
+			
 			return t;
 		}
 
