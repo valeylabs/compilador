@@ -63,7 +63,7 @@ public class Error {
 		System.out.println(StringHelper.padRight("| " + 
 				((this.tipo == TipoErro.Lexico) ? 
 						"(" + this.getLinha() + "," + this.getColuna() + ")" 
-						: ""
+						: "Linha: " + this.getLinha() + " | "
 				) + this.getMensagem(), 70) + "|" );		
 	}
 }
