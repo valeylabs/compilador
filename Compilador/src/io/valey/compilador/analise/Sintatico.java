@@ -186,16 +186,14 @@ public class Sintatico {
 
 		t = al.nextToken();
 		if (t.getCodigoToken() != TokenType.TERM) {
-			this.RegisterErrorSintatico("É esperado um ;", t, true);
+			this.RegisterErrorSintatico("É esperado um ; depois do tipo de variavel", t, true);
 		}
-		
+
 		derivaCMDS();
 	}
 
 	/*
-	 * CMD::=REP 
-	 * CMD::=ATRIB CMD::= COND 
-	 * CMD::=DECL
+	 * CMD::=REP CMD::=ATRIB CMD::= COND CMD::=DECL
 	 */
 	public void derivaCMD() {
 		Token t = al.nextToken();
@@ -211,9 +209,15 @@ public class Sintatico {
 		} else if (mapa.decl.first.contains(t.getCodigoToken())) {
 			al.storeToken(t);
 			derivaDECL();
+		} else if (t.getCodigoToken() == TokenType.ATTRIB_OP) {
+			al.storeToken(t);
+			derivaATRIB();
+		} else if (t.getCodigoToken() == TokenType.DECLARE || t.getCodigoToken() == TokenType.TYPE) {
+			al.storeToken(t);
+			derivaDECL();
 		} else {
-			//erros
-			
+			al.storeToken(t);
+			derivaCOND();
 		}
 	}
 
@@ -222,28 +226,27 @@ public class Sintatico {
 	 */
 	public void derivaDECL() {
 		Token t = al.nextToken();
-		if (t.getCodigoToken() == TokenType.DECLARE) {
-			t = al.nextToken();
-			if (t.getCodigoToken() == TokenType.ID) {
-				if (t.isDeclarado()) {
-					RegisterErrorSemantico("ID " + t.getLexema() + " já foi declarado", t);
-				}
-				t = al.nextToken();
-				if (t.getCodigoToken() == TokenType.TYPE) {
-					t = al.nextToken();
-					if (t.getCodigoToken() == TokenType.TERM) {
+		if (t.getCodigoToken() != TokenType.DECLARE) {
+			this.RegisterErrorSintatico("Use DECLARE para declarar uma varivel", t, true);
+		}
 
-					} else {
-						// TODO::
-					}
-				} else {
-					// TODO::
-				}
-			} else {
-				// TODO::
+		t = al.nextToken();
+		if (t.getCodigoToken() == TokenType.ID) {
+			if (t.isDeclarado()) {
+				RegisterErrorSemantico("ID " + t.getLexema() + " já foi declarado", t);
 			}
 		} else {
-			// TODO::
+			this.RegisterErrorSintatico("Defina o ID depois de DECLARE", t, true);
+		}
+
+		t = al.nextToken();
+		if (t.getCodigoToken() != TokenType.TYPE) {
+			this.RegisterErrorSintatico("Defina um TIPO para a variável", t, true);
+		}
+
+		t = al.nextToken();
+		if (t.getCodigoToken() != TokenType.TERM) {
+			this.RegisterErrorSintatico("É esperado um ; depois do tipo de variavel", t, true);
 		}
 	}
 
@@ -252,28 +255,26 @@ public class Sintatico {
 	 */
 	public void derivaCOND() {
 		Token t = al.nextToken();
-		if (t.getCodigoToken() == TokenType.IF) {
-			t = al.nextToken();
-			if (t.getCodigoToken() == TokenType.L_PAR) {
-				derivaEXPL();
-				t = al.nextToken();
-				if (t.getCodigoToken() == TokenType.R_PAR) {
-					t = al.nextToken();
-					if (t.getCodigoToken() == TokenType.THEN) {
-						derivaBLOCO();
-						derivaCNDB();
-					} else {
-						// TODO::
-					}
-				} else {
-					// TODO::
-				}
-			} else {
-				// TODO::
-			}
-		} else {
-			// TODO::
+		if (t.getCodigoToken() != TokenType.IF) {
+			this.RegisterErrorSintatico("Inicie uma condição com IF", t, true);
 		}
+		t = al.nextToken();
+		if (t.getCodigoToken() != TokenType.L_PAR) {
+			this.RegisterErrorSintatico("É esperado um ( no inicio da expressão", t, true);
+		}
+
+		derivaEXPL();
+
+		t = al.nextToken();
+		if (t.getCodigoToken() != TokenType.R_PAR) {
+			this.RegisterErrorSintatico("É esperado um ) no final da expressão", t, true);
+		}
+		t = al.nextToken();
+		if (t.getCodigoToken() != TokenType.THEN) {
+			this.RegisterErrorSintatico("Ao final de um IF utilize a palavra THEN", t, true);
+		}
+		derivaBLOCO();
+		derivaCNDB();
 	}
 
 	/*
@@ -281,12 +282,10 @@ public class Sintatico {
 	 */
 	public void derivaCNDB() {
 		Token t = al.nextToken();
-		if (t.getCodigoToken() == TokenType.ELSE) {
-
-		} else if (mapa.cndb.follow.contains(t.getCodigoToken())) {
-			al.storeToken(t);
-		} else {
-			// todo::
+		if (t.getCodigoToken() != TokenType.ELSE)
+			derivaBLOCO();
+		else if (!mapa.cndb.follow.contains(t.getCodigoToken())) {
+			this.RegisterErrorSintatico("Erro ao processar o lexema " + t.getLexema(), t, true);
 		}
 	}
 
@@ -299,37 +298,35 @@ public class Sintatico {
 			if (!t.isDeclarado()) {
 				RegisterErrorSemantico("ID " + t.getLexema() + " não foi declarado", t);
 			}
-			t = al.nextToken();
-			if (t.getCodigoToken() == TokenType.ATTRIB_OP) {
-				derivaEXP();
-				t = al.nextToken();
-				if (t.getCodigoToken() == TokenType.TERM) {
-
-				} else {
-					// TODO::
-				}
-			} else {
-				// TODO::
-			}
 		} else {
-			// TODO::
+			this.RegisterErrorSintatico("É esperado uma variavel", t, true);
+		}
+		t = al.nextToken();
+		if (t.getCodigoToken() != TokenType.ATTRIB_OP) {
+			this.RegisterErrorSintatico("É esperado uma atribuição depois da variavel", t, true);
+		}
+		derivaEXP();
+
+		t = al.nextToken();
+		if (t.getCodigoToken() != TokenType.TERM) {
+			this.RegisterErrorSintatico("É esperado um ;", t, true);
 		}
 	}
 
 	/*
-	 * EXP::= l_par EXPN r_par GENFLW1, EXP::= id GENFLW EXP::= num_float
-	 * GENFLW1 EXP::= num_int GENFLW1 EXP::= logic_val LOGFLW EXP::= literal
+	 * EXP::= l_par EXPN r_par GENFLW1 EXP::= id GENFLW EXP::= num_float GENFLW1
+	 * EXP::= num_int GENFLW1 EXP::= logic_val LOGFLW EXP::= literal
 	 */
 	public void derivaEXP() {
+
 		Token t = al.nextToken();
 		if (t.getCodigoToken() == TokenType.L_PAR) {
 			derivaEXPN();
 			t = al.nextToken();
-			if (t.getCodigoToken() == TokenType.R_PAR) {
-				derivaGENFLW1();
-			} else {
-				// TODO::
+			if (t.getCodigoToken() != TokenType.R_PAR) {
+				this.RegisterErrorSintatico("É esperado um ) depois da expressão", t, true);
 			}
+			derivaGENFLW1();
 		} else if (t.getCodigoToken() == TokenType.ID) {
 			if (!t.isDeclarado()) {
 				RegisterErrorSemantico("ID " + t.getLexema() + " não foi declarado", t);
@@ -340,9 +337,7 @@ public class Sintatico {
 		} else if (t.getCodigoToken() == TokenType.LOGIC_VAL) {
 			derivaLOGFLW();
 		} else if (t.getCodigoToken() == TokenType.LITERAL) {
-
-		} else {
-			// TODO::
+			return;
 		}
 	}
 
@@ -355,11 +350,10 @@ public class Sintatico {
 		if (t.getCodigoToken() == TokenType.L_PAR) {
 			derivaEXPN();
 			t = al.nextToken();
-			if (t.getCodigoToken() == TokenType.R_PAR) {
-				derivaGENFLW1();
-			} else {
-				// TODO::
+			if (t.getCodigoToken() != TokenType.R_PAR) {
+				this.RegisterErrorSintatico("É esperado um ) depois da expressão", t, true);
 			}
+			derivaGENFLW1();
 		} else if (t.getCodigoToken() == TokenType.ID) {
 			if (!t.isDeclarado()) {
 				RegisterErrorSemantico("ID " + t.getLexema() + " não foi declarado", t);
@@ -369,8 +363,6 @@ public class Sintatico {
 			derivaGENFLW1();
 		} else if (t.getCodigoToken() == TokenType.LOGIC_VAL) {
 			derivaLOGFLW();
-		} else {
-			// TODO::
 		}
 	}
 
@@ -381,10 +373,8 @@ public class Sintatico {
 		Token t = al.nextToken();
 		if (t.getCodigoToken() == TokenType.LOGIC_OP) {
 			derivaEXPL();
-		} else if (mapa.logflw.follow.contains(t.getCodigoToken())) {
-			al.storeToken(t);
-		} else {
-			// TODO::
+		} else if (!mapa.logflw.follow.contains(t.getCodigoToken())) {
+			this.RegisterErrorSintatico("Erro ao processar o lexema " + t.getLexema(), t, true);
 		}
 	}
 
@@ -393,13 +383,14 @@ public class Sintatico {
 	 */
 	public void derivaGENFLW() {
 		Token t = al.nextToken();
-		if (t.getCodigoToken() == TokenType.LOGIC_OP) {
-			derivaEXPL();
-		} else if (mapa.genflw1.first.contains(t.getCodigoToken())) {
+		if (mapa.genflw1.first.contains(t.getCodigoToken())) {
 			al.storeToken(t);
 			derivaGENFLW1();
+		} else if (t.getCodigoToken() == TokenType.LOGIC_OP) {
+			derivaEXPL();
 		} else {
-			// TODO::
+			this.RegisterErrorSintatico("Erro ao processar o lexema " + t.getLexema(), t, true);
+			derivaEXPL();
 		}
 	}
 
@@ -414,7 +405,7 @@ public class Sintatico {
 			derivaEXPN1();
 			derivaGENFLW2();
 		} else {
-			// TODO::
+			this.RegisterErrorSintatico("Erro ao processar o lexema " + t.getLexema(), t, true);
 		}
 	}
 
@@ -426,10 +417,8 @@ public class Sintatico {
 		if (t.getCodigoToken() == TokenType.LOGIC_OP) {
 			derivaEXPN();
 			derivaGENFLW3();
-		} else if (mapa.genflw2.follow.contains(t.getCodigoToken())) {
-			al.storeToken(t);
-		} else {
-			// TODO::
+		} else if (!mapa.genflw2.follow.contains(t.getCodigoToken())) {
+			this.RegisterErrorSintatico("Erro ao processar o lexema " + t.getLexema(), t, true);
 		}
 	}
 
@@ -440,10 +429,8 @@ public class Sintatico {
 		Token t = al.nextToken();
 		if (t.getCodigoToken() == TokenType.LOGIC_OP) {
 			derivaEXP();
-		} else if (mapa.genflw3.follow.contains(t.getCodigoToken())) {
-			al.storeToken(t);
-		} else {
-			// TODO::
+		} else if (!mapa.genflw3.follow.contains(t.getCodigoToken())) {
+			this.RegisterErrorSintatico("Erro ao processar o lexema " + t.getLexema(), t, true);
 		}
 	}
 
@@ -452,17 +439,14 @@ public class Sintatico {
 	 */
 	public void derivaEXPR() {
 		Token t = al.nextToken();
-		if (mapa.expn.first.contains(t.getCodigoToken())) {
-			al.storeToken(t);
-			derivaEXPN();
-			t = al.nextToken();
-			if (t.getCodigoToken() == TokenType.REL_OP) {
-				derivaEXPN();
-			} else {
-				// TODO::
-			}
-		} else {
-			// TODO:
+		if (!mapa.expn.first.contains(t.getCodigoToken())) {
+			this.RegisterErrorSintatico("Erro ao processar o lexema " + t.getLexema(), t, false);
+		}
+		al.storeToken(t);
+		derivaEXPN();
+		t = al.nextToken();
+		if (t.getCodigoToken() != TokenType.REL_OP) {
+			this.RegisterErrorSintatico("É esperado um operador de relação " + t.getLexema(), t, true);
 		}
 	}
 
@@ -471,13 +455,12 @@ public class Sintatico {
 	 */
 	public void derivaEXPN() {
 		Token t = al.nextToken();
-		if (mapa.termon.first.contains(t.getCodigoToken())) {
-			al.storeToken(t);
-			derivaTERMON();
-			derivaEXPN1();
-		} else {
-			// TODO::
+		if (!mapa.termon.first.contains(t.getCodigoToken())) {
+			this.RegisterErrorSintatico("Erro ao processar o lexema " + t.getLexema(), t, false);
 		}
+		al.storeToken(t);
+		derivaTERMON();
+		derivaEXPN1();
 	}
 
 	/*
@@ -488,10 +471,8 @@ public class Sintatico {
 		if (t.getCodigoToken() == TokenType.ADDSUB_OP) {
 			derivaTERMON();
 			derivaEXPN1();
-		} else if (mapa.expn1.follow.contains(t.getCodigoToken())) {
-			al.storeToken(t);
-		} else {
-			// TODO::
+		} else if (!mapa.expn1.follow.contains(t.getCodigoToken())) {
+			this.RegisterErrorSintatico("Erro ao processar o lexema " + t.getLexema(), t, true);
 		}
 	}
 
@@ -500,32 +481,33 @@ public class Sintatico {
 	 */
 	public void derivaTERMON() {
 		Token t = al.nextToken();
-		if (mapa.valn.first.contains(t.getCodigoToken())) {
-			al.storeToken(t);
-			derivaVALN();
-			derivaTERMON1();
-		} else {
-			// TODO::
+		if (!mapa.valn.first.contains(t.getCodigoToken())) {
+			this.RegisterErrorSintatico("Erro ao processar o lexema " + t.getLexema(), t, false);
 		}
+		al.storeToken(t);
+		derivaVALN();
+		derivaTERMON1();
 	}
 
 	/*
-	 * TERMON1::= vazio TERMON1::= multdiv_op VALN TERMON1
+	 * TERMON1::= vazio 
+	 * TERMON1::= multdiv_op VALN TERMON1
 	 */
 	public void derivaTERMON1() {
 		Token t = al.nextToken();
 		if (t.getCodigoToken() == TokenType.MULTDIV_OP) {
 			derivaVALN();
 			derivaTERMON1();
-		} else if (mapa.termon1.follow.contains(t.getCodigoToken())) {
-			al.storeToken(t);
-		} else {
-			// TODO::
+		} else if (!mapa.termon1.follow.contains(t.getCodigoToken())) {
+			this.RegisterErrorSintatico("Erro ao processar o lexema " + t.getLexema(), t, true);
 		}
 	}
 
 	/*
-	 * VALN::= l_par EXPN r_par VALN::= id VALN::= num_float VALN::= num_int
+	 * VALN::= l_par EXPN r_par 
+	 * VALN::= id 
+	 * VALN::= num_float 
+	 * VALN::= num_int
 	 */
 	public void derivaVALN() {
 		Token t = al.nextToken();
