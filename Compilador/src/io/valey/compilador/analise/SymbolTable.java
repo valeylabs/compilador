@@ -26,6 +26,7 @@ public class SymbolTable extends HashMap<String, Token> {
 		this.installKeyword(new Token("bool", TokenType.TYPE));
 		this.installKeyword(new Token("text", TokenType.TYPE));
 		this.installKeyword(new Token("int", TokenType.TYPE));
+		this.installKeyword(new Token("float", TokenType.TYPE));
 		this.installKeyword(new Token("program", TokenType.PROGRAM));
 		this.installKeyword(new Token("end_prog", TokenType.END_PROGRAM));
 		this.installKeyword(new Token("begin", TokenType.BEGIN));
